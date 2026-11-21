@@ -52,6 +52,21 @@ jobs:
         run: |
           set -o pipefail
           python3 tools/verify.py --log-dir "$RUNNER_TEMP/verify-logs" | tee "$RUNNER_TEMP/verify.out"
+      - name: Human review packet (flags library rows without a human stamp; never fails)
+        if: always()
+        working-directory: circuit-blocks
+        run: |
+          python3 tools/review_packet.py --out-dir "$RUNNER_TEMP/human-review-packet" || {
+            echo "::warning title=human review::tools/review_packet.py failed"
+            echo "packet tool crashed: see log" >> "$GITHUB_STEP_SUMMARY"; }
+          cat "$RUNNER_TEMP/human-review-packet/annotations.txt" 2>/dev/null || true
+          cat "$RUNNER_TEMP/human-review-packet/summary.md" >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: human-review-packet
+          path: ${{ runner.temp }}/human-review-packet
+          if-no-files-found: ignore
       - name: tools/verify.py --schematic (each bench)
         if: always()
         working-directory: circuit-blocks

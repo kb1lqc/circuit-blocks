@@ -6,6 +6,7 @@ Applies to every bench's generated datasheet (`benches/<Block>/docs/design-analy
 - A Python script in jupytext percent format (`# %%` cells) regenerates, with one command, the committed Markdown datasheet and PNG charts in `docs/`, `values.json`, and `docs/design-analysis.pdf` on every run. No raw `.ipynb`; no hand-written numbers.
 - The PDF carries a hash of the Markdown it was made from; the sync check (`check_sync.sh`) fails when it is stale or missing. Never hand-edit it.
 - `tools/check_reports.py` regenerates each bench's `design-analysis.md` and `values.json` in a temp copy and fails on any byte difference, a missing or empty `values.json`, or zero benches. The PDF is not byte-reproducible and is covered by the hash check only.
+- `tools/review_packet.py --out-dir DIR` runs each analysis into a temp folder and writes, per block, the library rows it read that lack a current human stamp (`human:<name>`, library `docs/spec/review.md`) as `DIR/<Block>.html` with the review evidence; CI flags them as warnings and uploads the packets (artifact `human-review-packet`), never a failure.
 - The datasheet is pure analysis of the design as it is: no options, alternatives, candidate comparisons or worked examples. Option studies happen earlier in scratch scripts.
 
 ## Contents

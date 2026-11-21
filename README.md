@@ -29,13 +29,15 @@ board runs for its own instance values, a bench board, and an arranged reference
 # pcb toolchain 0.4.x: https://docs.pcb.new
 git clone https://github.com/kb1lqc/circuit-blocks.git
 # Python analyses need the library checked out next to this repo, at the version pinned in analysis/_zl.py:
-git clone --branch v0.3.0 https://github.com/kb1lqc/zener-library.git zener-library
+git clone --branch v0.6.0 https://github.com/kb1lqc/zener-library.git zener-library
 git -C circuit-blocks config core.hooksPath tools/git   # schematic sync check on commit
 ```
 
 The `.zen` files are the source of truth for the circuit; review schematics in KiCad, but make circuit changes in the
 `.zen`. The library checkout must stay outside this repo: `pcb` rejects any nested `pcb.toml` with a `[workspace]`
 section. Set `ZENER_LIBRARY` to use a different checkout.
+
+Setup and submitting a block, step by step: [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Use (from the repo root)
 
